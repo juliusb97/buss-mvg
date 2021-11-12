@@ -2,10 +2,24 @@
   "name": "buss-mvg",
   "version": "1.0.0",
   "description": "Mitgliederverzeichnis Verwaltungssoftware",
-  "main": "index.js",
+  "main": ".\\dist",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "watch:build": "tsc --watch",
+    "watch:server": "nodemon '.\\dist\\index.js' --watch '.\\dist'",
+    "startAlt": "npm-run-all build --parallel watch:build watch:server --print-label",
+    "start": "./node_modules/.bin/tsc-watch --onSuccess \"nodemon .\\dist\\index.js "
   },
   "author": "Julius Banke",
-  "license": "SEE LICENSE IN license.md"
+  "license": "SEE LICENSE IN license.md",
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "@types/pdfkit": "^0.12.3",
+    "express": "^4.17.1",
+    "pdfkit": "^0.13.0"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.4.4"
+  }
 }
