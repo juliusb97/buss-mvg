@@ -1,38 +1,39 @@
 export {
-	address, 
-	mail,
+	Address, 
+	Mail,
 	date,
-	convent,
-	retirement,
-	member
+	Convent,
+	Retirement,
+	Member,
+	conventToColor
 };
 
-class member {
+class Member {
 	constructor(
-		firstName: string, 
-		lastName: string, 
-		dob: date, 
-		location: address, 
-		convent: convent,
-		title: string,
-		joinDate: date,
-		marriageDate: date,
-		marriage: string,
-		mailPrivat: mail,
-		mailWork: mail,
-		dobPartner: date,
-		diakon: date,
-		description: string,
-		retired: retirement,
-		telWork: string,
-		telPrivate: string,
-		faxWork: string,
-		faxPrivate: string
+		public firstName: string, 
+		public lastName: string, 
+		public dob: date, 
+		public location: Address, 
+		public convent: Convent,
+		public title: string,
+		public joinDate: date,
+		public marriageDate: date,
+		public marriage: string,
+		public mailPrivat: Mail,
+		public mailWork: Mail,
+		public dobPartner: date,
+		public diakon: date,
+		public description: string,
+		public retired: Retirement,
+		public telWork: string,
+		public telPrivate: string,
+		public faxWork: string,
+		public faxPrivate: string
 		) {}
 
 }
 
-class address {
+class Address {
 
 	constructor(
 		public town: string, 
@@ -45,14 +46,26 @@ class address {
 	}
 }
 
-class mail{
+class Mail{
 	constructor(address: string) {
 		if(address.indexOf("@") == -1) throw new Error("Mail-Adresse muss (at)-Zeichen beinhalten");
 	}
 }
 
-interface convent {
-	convent: "Oberlausitzer Konvent" | "Niederschlesischer Konvent" | "Berliner Konvent";
+enum Convent {
+	O = "Oberlausitzer Konvent",
+	N = "Niederschlesischer Konvent",
+	B = "Berliner Konvent"
+}
+
+let colors = {
+	"Oberlausitzer Konvent": "#553377",
+	"Niederschlesischer Konvent": "#64c6ff" ,
+	"Berliner Konvent": "#228855"
+}
+
+function conventToColor(convent: Convent): string{
+	return colors[convent];
 }
 
 class date{
@@ -79,6 +92,8 @@ class date{
 	}
 }
 
-interface retirement{
-	retired: "Ruheständler" | "Ruheständlerin";
+enum Retirement{
+	nicht = "",
+	male = "Ruheständler",
+	female = "Ruheständlerin"
 }
