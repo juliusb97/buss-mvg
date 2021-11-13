@@ -41,8 +41,8 @@ class Address {
 		public address: string) 
 		{}
 
-	toString(): string{
-		return this.postal + " " + this.town + "\n" + this.address;
+	toString(): string[]{
+		return [this.postal + " " + this.town, this.address];
 	}
 }
 

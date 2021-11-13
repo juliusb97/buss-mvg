@@ -53,17 +53,25 @@ function createPDF(){
 	const table = tableMaker(drese);
 
 	doc
-		.fontSize(12)
+		// .lineWidth(0.5)
+		// .moveTo(19.75, 16)
+		// .lineTo(19.75, 192)
+		// .stroke("#C0C0C0")
+		// .stroke("#666666")
+		.image("./assets/person.png", 180, 25, {width: 75})
 		.table(table, { width: 300})
 		.end();
 }
 
 function tableMaker(member: Member): any {
 	return {
+		options: {x: 70, y: 100},
 		headers: [
+			// { label: "", width: 5, headerColor: conventToColor(member.convent)},
 			{ label: member.firstName + " " + member.lastName, width: 200, headerColor: conventToColor(member.convent)},
-			{ label: "geb.", width: 30, headerColor: conventToColor(member.convent)},
+			{ label: "geb.", width: 35, headerColor: conventToColor(member.convent)},
 			{ label: member.dob.toString(), width: 80, headerColor: conventToColor(member.convent)},
+			// { label: "", width: 5, headerColor: conventToColor(member.convent)},
 		],
 		rows: [
 			[member.title, "Mitgl.", member.joinDate],
@@ -73,8 +81,30 @@ function tableMaker(member: Member): any {
 			["", "Fax. d.", member.telPrivate],
 			[member.marriageDate.toString(), "Mobil", member.telPrivate],
 			[member.marriage, "geb.", member.dobPartner.toString()],
-			[member.location.toString(), "Mail", member.mailPrivat],
-			["", "Mail d.", member.mailWork]
+			[member.location.toString()[0], "Mail", member.mailPrivat],
+			[member.location.toString()[1], "Mail d.", member.mailWork]
 		]
 	}
+
+	// return {
+	// 	options: {x: 70, y: 100},
+	// 	headers: [
+	// 		{ label: "", width: 5, headerColor: conventToColor(member.convent)},
+	// 		{ label: member.firstName + " " + member.lastName, width: 200, headerColor: conventToColor(member.convent), options: {fontSize: 15}},
+	// 		{ label: "geb.", width: 35, headerColor: conventToColor(member.convent), options: {fontSize: 15}},
+	// 		{ label: member.dob.toString(), width: 80, headerColor: conventToColor(member.convent), options: {fontSize: 15}},
+	// 		{ label: "", width: 5, headerColor: conventToColor(member.convent)},
+	// 	],
+	// 	rows: [
+	// 		["", member.title, "Mitgl.", member.joinDate, ""],
+	// 		["", member.description, "Diak.", member.diakon, ""],
+	// 		["", "", "Tel. d.", member.telWork, ""],
+	// 		["", "", "Fax", member.faxPrivate, ""],
+	// 		["", "", "Fax. d.", member.telPrivate, ""],
+	// 		["", member.marriageDate.toString(), "Mobil", member.telPrivate, ""],
+	// 		["", member.marriage, "geb.", member.dobPartner.toString(), ""],
+	// 		["", member.location.toString()[0], "Mail", member.mailPrivat, ""],
+	// 		["", member.location.toString()[1], "Mail d.", member.mailWork, ""]
+	// 	]
+	// }
 }
