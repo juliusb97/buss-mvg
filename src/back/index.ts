@@ -1,14 +1,19 @@
 import express, { application } from "express";
 import * as pdf from "pdfkit";
 import * as fs from "fs";
-import { Member, conventToColor, date, Address, Convent, Retirement } from "./member.entity.js";
+import { Member, conventToColor, date, Address, Convent, Retirement, Mail } from "./member.entity.js";
 import path from "path";
-// const PDFDocument = require("pdfkit-table");
 import PDFDocument from "pdfkit-table";
+import cors from "cors";
+// const PDFDocument = require("pdfkit-table");
 // import PDFDocument from "pdfkit";
 
 const port = 9400;
 const app = express();
+
+app.use(cors({
+	origin: "*"
+}));
 
 app.get("/edit", (req: any, res: any) =>{
 	console.log("Connection established");
@@ -24,7 +29,11 @@ app.get("/print", (req: any, res: any) => {
 });
 
 app.get("/test", (req: any, res: any) => {
-	res.status(200).send("test");
+	res.setHeader("Content-Type", "application/json");
+
+	let serialized = drese.serialize();
+
+	res.status(200).send(serialized);
 })
 
 app.use(express.static('public'));
@@ -40,27 +49,6 @@ app.listen(port, () =>{
 function createPDF(){
 	const doc = new PDFDocument({ margin: 20, size: "A5"});
 	doc.pipe(fs.createWriteStream(".\\output\\out.pdf"));
-
-	let drese = new Member(
-		 "Max",
-		 "Mustermann",
-		 new date(1, 2, 1960),
-		 new Address("Berlin", "01219", "Schlossallee 10"),
-		 Convent.N, "Diakon",
-		 new date(11, 2, 1996),
-		 new date(15, 7, 200),
-		 "verh. mit Mustermann, Erika geb. Schmidt",
-		 "max.muster@t-online.de",
-		 "max.muster@musterfirma.de",
-		 new date(21, 8, 1985),
-		 new date(19, 2, 1997),
-		 "Dipl. Sozialpädagoge",
-		 Retirement.nicht,
-		 "01234/567890",
-		 "01234/567890",
-		 "01234/567890",
-		 "01234/567890"
-	);
 
 	const table = tableMaker(drese);
 
@@ -120,3 +108,24 @@ function tableMaker(member: Member): any {
 	// 	]
 	// }
 }
+
+let drese = new Member(
+	"Max",
+	"Mustermann",
+	new date(1, 2, 1960),
+	new Address("Berlin", "01219", "Schlossallee 10"),
+	Convent.N, "Diakon",
+	new date(11, 2, 1996),
+	new date(15, 7, 200),
+	"verh. mit Mustermann, Erika geb. Schmidt",
+	new Mail("max.muster@t-online.de"),
+	new Mail("max.muster@musterfirma.de"),
+	new date(21, 8, 1985),
+	new date(19, 2, 1997),
+	"Dipl. Sozialpädagoge",
+	Retirement.nicht,
+	"01234/567890",
+	"01234/567890",
+	"01234/567890",
+	"01234/567890"
+);

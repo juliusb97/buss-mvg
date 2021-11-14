@@ -31,6 +31,61 @@ class Member {
 		public faxPrivate: string
 		) {}
 
+	
+	toObject(){
+		return {
+			firstName: this.firstName, 
+			lastName: this.lastName, 
+			dob: this.dob.serialize(), 
+			location: this.location.serialize(), 
+			convent: this.convent.toString(),
+			title: this.title,
+			joinDate: this.joinDate.serialize(),
+			marriageDate: this.marriageDate.serialize(),
+			marriage: this.marriage,
+			mailPrivat: this.mailPrivat.serialize(),
+			mailWork: this.mailWork.serialize(),
+			dobPartner: this.dobPartner.serialize(),
+			diakon: this.diakon.serialize(),
+			description: this.description,
+			retired: this.retired.toString(),
+			telWork: this.telWork,
+			telPrivate: this.telPrivate,
+			faxWork: this.faxWork,
+			faxPrivate: this.faxPrivate 
+		}
+	}
+
+	serialize(){
+		return JSON.stringify(this.toObject());
+	}
+
+	static deserialize(member: string) {
+		let mo = JSON.parse(member);
+
+		let newMember = new Member(
+			mo.firstName,
+			mo.lastName,
+			date.deserialize(mo.dob),
+			Address.deserialize(mo.location),
+			Convent[mo.convent],
+			mo.title,
+			date.deserialize(mo.joinDate),
+			date.deserialize(mo.marriageDate),
+			mo.marriage,
+			Mail.deserialize(mo.mailPrivat),
+			Mail.deserialize(mo.mailWork),
+			date.deserialize(mo.dobPartner),
+			date.deserialize(mo.diakon),
+			mo.description,
+			Retirement[mo.retired],
+			mo.telWork,
+			mo.telPrivate,
+			mo.faxWork,
+			mo.faxPrivate,
+		);
+	}
+
 }
 
 class Address {
@@ -44,11 +99,39 @@ class Address {
 	toString(): string[]{
 		return [this.postal + " " + this.town, this.address];
 	}
+
+	serialize(){
+		return JSON.stringify(this);
+	}
+
+	static deserialize(addressInput: string){
+		let obj = JSON.parse(addressInput);
+		let town = obj.address;
+		let postal = obj.postal;
+		let address = obj.address;
+
+		return new Address(town, postal, address);
+	}
 }
 
 class Mail{
+
+	address: string;
+
 	constructor(address: string) {
 		if(address.indexOf("@") == -1) throw new Error("Mail-Adresse muss (at)-Zeichen beinhalten");
+		else this.address = address;
+	}
+
+	serialize(){
+		return {
+			mail: this.address
+		}
+	}
+
+	static deserialize(mail: string){
+		let newMail = JSON.parse(mail);
+		return new Mail(newMail);
 	}
 }
 
@@ -89,6 +172,18 @@ class date{
 		str += this.month.toString().padStart(2, "0") + ".";
 		str += this.year.toString();
 		return str;
+	}
+
+	serialize(){
+		return {
+			date: this.toString()
+		}
+	}
+
+	static deserialize(dateInput: string){
+		let newDate = JSON.parse(dateInput);
+
+		return new date(newDate.day, newDate.month, newDate.year);
 	}
 }
 
