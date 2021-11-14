@@ -1,7 +1,9 @@
 import express, { application } from "express";
 import * as pdf from "pdfkit";
 import * as fs from "fs";
-import { Member, conventToColor, date, Address, Convent, Retirement } from "./member.entity";
+import { Member, conventToColor, date, Address, Convent, Retirement } from "./member.entity.js";
+// import PDFDocument from "pdfkit-table";
+import path from "path";
 // import PDFDocument from "pdfkit";
 const PDFDocument = require("pdfkit-table");
 
@@ -19,7 +21,12 @@ app.get("/print", (req: any, res: any) => {
 
 	console.log("Created PDF file.");
 	res.send("File created, see ./output");
-})
+});
+
+app.use(express.static('public'));
+app.get('*', (req, res) => {
+   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
 app.listen(port, () =>{
 	console.log(`Server started at localhost:${ port }`);
