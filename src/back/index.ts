@@ -31,7 +31,7 @@ app.get("/print", (req: any, res: any) => {
 app.get("/test", (req: any, res: any) => {
 	res.setHeader("Content-Type", "application/json");
 
-	let serialized = drese.serialize();
+	let serialized = muster.serialize();
 
 	res.status(200).send(serialized);
 })
@@ -50,7 +50,7 @@ function createPDF(){
 	const doc = new PDFDocument({ margin: 20, size: "A5"});
 	doc.pipe(fs.createWriteStream(".\\output\\out.pdf"));
 
-	const table = tableMaker(drese);
+	const table = tableMaker(muster);
 
 	doc
 		// .lineWidth(0.5)
@@ -109,7 +109,7 @@ function tableMaker(member: Member): any {
 	// }
 }
 
-let drese = new Member(
+let muster = new Member(
 	"Max",
 	"Mustermann",
 	new date(1, 2, 1960),

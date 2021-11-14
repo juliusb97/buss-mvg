@@ -5,7 +5,10 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import css from 'rollup-plugin-css-only';
+import multiinput from "rollup-plugin-multi-input";
 // import typescript from '@rollup/plugin-typescript';
+
+//TODO: try using tsc in rollup (comment down below) instead of manually
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -32,6 +35,10 @@ function serve() {
 
 export default {
 	input: 'public/main.js',
+	// input: [
+	// 	"public/main.js",
+	// 	"public/back/*.js"
+	// ],
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -39,6 +46,7 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		// multiinput(),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {

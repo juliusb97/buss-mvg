@@ -1,22 +1,16 @@
 <script lang="ts">
+	import { Member } from "..\\public\\back\\member.entity";
+
 	let name = 'world';
 
 	async function fetchMembers() {
-		// let data = await fetch("127.0.0.1:9400/test");
-		// console.log(data);
-		// let reader = data.body.getReader();
-
-		// let val = await reader.read().then(function processText({ done, value}) {
-		// 	if(done){
-		// 		console.log(value);
-		// 		return value;
-		// 	}
-		// });
-		// console.log(val);
-
 		fetch('http://127.0.0.1:9400/test')
 		  .then(response => response.json())
-		  .then(data => console.log(data));
+		  .then(data => {
+			console.log(data);
+			let member = Member.deserialize(JSON.stringify(data));
+			// console.log(member.serialize());
+		  });
 
 	}
 

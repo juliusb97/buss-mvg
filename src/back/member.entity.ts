@@ -60,10 +60,10 @@ class Member {
 		return JSON.stringify(this.toObject());
 	}
 
-	static deserialize(member: string) {
+	static deserialize(member: string): Member {
 		let mo = JSON.parse(member);
 
-		let newMember = new Member(
+		return new Member(
 			mo.firstName,
 			mo.lastName,
 			date.deserialize(mo.dob),
@@ -85,7 +85,6 @@ class Member {
 			mo.faxPrivate,
 		);
 	}
-
 }
 
 class Address {
