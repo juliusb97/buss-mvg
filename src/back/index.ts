@@ -1,7 +1,7 @@
 import express, { application } from "express";
 import * as pdf from "pdfkit";
 import * as fs from "fs";
-import { Member, conventToColor, date, Address, Convent, Retirement, Mail } from "./member.entity.js";
+import { Member, conventToColor, date, Address, Convent, Retirement, Mail, someClass } from "./member.entity.js";
 import path from "path";
 import PDFDocument from "pdfkit-table";
 import cors from "cors";
@@ -29,11 +29,12 @@ app.get("/print", (req: any, res: any) => {
 });
 
 app.get("/test", (req: any, res: any) => {
-	res.setHeader("Content-Type", "application/json");
+	// res.setHeader("Content-Type", "application/json");
 
-	let serialized = muster.serialize();
+	// let serialized = muster.serialize();
 
-	res.status(200).send(serialized);
+	// res.status(200).send(serialized);
+	res.status(200).send("test");
 })
 
 app.use(express.static('public'));

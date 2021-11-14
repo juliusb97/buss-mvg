@@ -5,8 +5,16 @@ export {
 	Convent,
 	Retirement,
 	Member,
+	someClass,
 	conventToColor
 };
+
+class someClass{
+	public firstName: string;
+	public lastName: string;
+
+	constructor(){}
+}
 
 class Member {
 	constructor(
@@ -66,17 +74,17 @@ class Member {
 		return new Member(
 			mo.firstName,
 			mo.lastName,
-			date.deserialize(mo.dob),
-			Address.deserialize(mo.location),
+			new date(mo.dob.day, mo.dob.month, mo.dob.year),
+			new Address(mo.location.town, mo.location.postal, mo.location.address),
 			Convent[mo.convent],
 			mo.title,
-			date.deserialize(mo.joinDate),
-			date.deserialize(mo.marriageDate),
+			new date(mo.joinDate.day, mo.joinDate.month, mo.joinDate.year),
+			new date(mo.marriageDate.day, mo.marriageDate.month, mo.marriageDate.year),
 			mo.marriage,
-			Mail.deserialize(mo.mailPrivat),
-			Mail.deserialize(mo.mailWork),
-			date.deserialize(mo.dobPartner),
-			date.deserialize(mo.diakon),
+			new Mail(mo.mailPrivat.mail),
+			new Mail(mo.mailWork.mail),
+			new date(mo.dobPartner.day, mo.dobPartner.month, mo.dobPartner.year),
+			new date(mo.diakon.day, mo.diakon.month, mo.diakon.year),
 			mo.description,
 			Retirement[mo.retired],
 			mo.telWork,
@@ -100,12 +108,16 @@ class Address {
 	}
 
 	serialize(){
-		return JSON.stringify(this);
+		return {
+			town: this.town,
+			postal: this.postal,
+			address: this.address
+		}
 	}
 
 	static deserialize(addressInput: string){
 		let obj = JSON.parse(addressInput);
-		let town = obj.address;
+		let town = obj.town;
 		let postal = obj.postal;
 		let address = obj.address;
 
@@ -175,11 +187,14 @@ class date{
 
 	serialize(){
 		return {
-			date: this.toString()
+			day: this.day,
+			month: this.month,
+			year: this.year
 		}
 	}
 
 	static deserialize(dateInput: string){
+		console.log(dateInput);
 		let newDate = JSON.parse(dateInput);
 
 		return new date(newDate.day, newDate.month, newDate.year);
