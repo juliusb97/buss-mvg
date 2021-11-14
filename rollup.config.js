@@ -31,7 +31,7 @@ function serve() {
 }
 
 export default {
-	input: 'src/main.ts',
+	input: 'public/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -60,10 +60,10 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
+		// typescript({
+		// 	sourceMap: !production,
+		// 	inlineSources: !production
+		// }),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

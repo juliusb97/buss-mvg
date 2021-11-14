@@ -4,16 +4,21 @@
   "description": "Mitgliederverzeichnis Verwaltungssoftware",
   "main": ".\\dist",
   "type": "module",
+  "watch": {
+    "start": {
+      "patterns": [
+        "./src/**/*"
+      ],
+      "extensions": "ts,svelte"
+    }
+  },
   "scripts": {
-	  "build-svelte": "rollup -c",
-	  "dev-svelte": "rollup -c -w",
-    "start-svelte": "sirv public --no-clear",
-    "build": "tsc",
-    "watch:build": "tsc --watch",
-    "watch:server": "nodemon '.\\dist\\index.js' --watch '.\\dist'",
+    "build-svelte": "rollup -c",
     "startAlt": "npm-run-all build --parallel watch:build watch:server --print-label",
     "startAltAlt": "./node_modules/.bin/tsc-watch --onSuccess \"nodemon .\\dist\\index.js ",
-    "startNew": "npm run build & npm run build-svelte & node src/back/index.js"
+    "startNew": "npm run build & npm run build-svelte & node src/back/index.js",
+    "watch": "npm-watch start",
+    "start": "tsc & npm run build-svelte & node .\\public\\back\\index.js"
   },
   "author": "Julius Banke",
   "license": "SEE LICENSE IN license.md",
@@ -22,15 +27,18 @@
     "@types/pdfkit": "^0.12.3",
     "@types/tsc-watch": "^4.2.0",
     "express": "^4.17.1",
+    "npm-watch": "^0.11.0",
     "pdfkit": "^0.13.0",
     "pdfkit-table": "^0.1.67",
-    "tsc-watch": "^4.5.0",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "tsc-watch": "^4.5.0"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.0.0",
+    "@tsconfig/svelte": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -39,9 +47,7 @@
     "svelte": "^3.0.0",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",
-    "@rollup/plugin-typescript": "^8.0.0",
-    "typescript": "^4.0.0",
     "tslib": "^2.0.0",
-    "@tsconfig/svelte": "^2.0.0"
+    "typescript": "^4.0.0"
   }
 }
