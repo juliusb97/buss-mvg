@@ -1,7 +1,28 @@
 <script lang="ts">
+	import List from "./List.svelte";
 	// import { Member } from "..\\public\\back\\member.entity";
 
 	let name = 'world';
+	let members = [
+		"Max Mustermann",
+		"Laura Müller",
+		"Erika Schmidt",
+		"Max Mustermann",
+		"Laura Müller",
+		"Erika Schmidt",
+		"Max Mustermann",
+		"Laura Müller",
+		"Erika Schmidt",
+		"Max Mustermann",
+		"Laura Müller",
+		"Erika Schmidt",
+		"Max Mustermann",
+		"Laura Müller",
+		"Erika Schmidt",
+		"Max Mustermann",
+		"Laura Müller",
+		"Laura Müller",
+	];
 	// let member: Promise<Member>;
 
 	async function fetchMembers(): Promise<string> {
@@ -20,7 +41,18 @@
 	fetchMembers();
 </script>
 
-<h1>Hello {name}!</h1>
+<style>
+#container{
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+</style>
+
+<div id="container">
+	<List members={members}/>
+	<h1>Hello {name}!</h1>
+</div>
 
 <!-- {#await member}
 	<p>Lädt...</p>
