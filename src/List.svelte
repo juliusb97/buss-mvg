@@ -1,61 +1,58 @@
-<script lang="ts">
-export let members: any[];
+<script>
+    import { ClickableTile, Search } from "carbon-components-svelte";
+    import Search20 from "carbon-icons-svelte/lib/Search20";
 
-let filter = "";
-let filtered = members;
+    let members = ["Max Mustermann", "Laura Schmidt", "Erika Mustermann", "Angela Merkel", "Elton John", "Scarlett Johansson", "Chris Pratt", "Marilyn Manson", "Sankt Martin", "Simon Kretschmer", "Johnny Depp", "Kate Upton"];
 
-function filterMembers(){
-	let inputFilter = (document.querySelector("#filterInput") as HTMLInputElement).value;
-	if(inputFilter == "") filtered = members;
-	else filtered = members.filter(mem => mem.toLowerCase().includes(inputFilter.toLowerCase()));
-}
+    let filter = "";
 </script>
 
 <style>
-#list{
-	height: 100%;
-	width: 25%;
-	background: #222;
-	display: flex;
-	flex-direction: column;
-}
+    #main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 
-#members {
-	overflow-y: auto;
-}
+    #list {
+        overflow-y: scroll;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-.member {
-	margin: 20px;
-	width: calc(100% - 70px);
-	background: #111;
-	box-shadow: #050505 2px 2px 5px;
-	padding: 15px;
-	border-radius: 5px;
-}
+    #searchBar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
-#search {
-	margin: 20px;
-	width: calc(100% - 40px);
-	border-radius: 15px;
-}
+    .memberWrapper {
+        margin: 15px;
+        margin-bottom: 3px;
+    }
 
-#search > input {
-	background: #111;
-	border: #000 1px;
-	border-radius: 15px;
-	width: 100%;
-}
+    hr {
+        width: 85%;
+    }
 </style>
 
-<div id="list">
-	<div id="search">
-		<input placeholder="Suchen..." type="text" bind:value={filter} on:input={filterMembers} id="filterInput">
-	</div>
-	<div id="members">
-		{#each filtered as member}
-			<div class="member">
-				<p>{member}</p>
-			</div>	
-		{/each}
-	</div>
+<div id="main">
+    <div id="searchBar">
+        <Search bind:value={filter} placeholder="Suchen..."/>
+        <!-- <input id="memberSearchbar" type="text" placeholder="Suchen...">
+        <Search20/> -->
+    </div>
+    <hr>
+    <div id="list">
+        {#each members as member}
+            <div class="memberWrapper">
+                <ClickableTile class="membersInList">
+                    {member}
+                </ClickableTile>
+            </div>
+        {/each}
+</div>
 </div>

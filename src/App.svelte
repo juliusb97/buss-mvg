@@ -1,63 +1,48 @@
-<script lang="ts">
+<script>
+	import "carbon-components-svelte/css/g90.css";
+	import "carbon-components-svelte/css/all.css";
 	import List from "./List.svelte";
-	// import { Member } from "..\\public\\back\\member.entity";
+	import MemberPage from "./MemberPage.svelte";
+  	let theme = "g90"; // "white" | "g10" | "g80" | "g90" | "g100"
 
-	let name = 'world';
-	let members = [
-		"Max Mustermann",
-		"Laura Müller",
-		"Erika Schmidt",
-		"Max Mustermann",
-		"Laura Müller",
-		"Erika Schmidt",
-		"Max Mustermann",
-		"Laura Müller",
-		"Erika Schmidt",
-		"Max Mustermann",
-		"Laura Müller",
-		"Erika Schmidt",
-		"Max Mustermann",
-		"Laura Müller",
-		"Erika Schmidt",
-		"Max Mustermann",
-		"Laura Müller",
-		"Laura Müller",
-	];
-	// let member: Promise<Member>;
+  	$: document.documentElement.setAttribute("theme", theme);
 
-	async function fetchMembers(): Promise<string> {
-		return await fetch('http://127.0.0.1:9400/test')
-		  .then(response => response.text())
-		  .then(data => {
-			// console.log(data);
-			// let memberFetched = Member.deserialize(JSON.stringify(data));
-			// return memberFetched;
-			name = data;
-			return data;
-		  });
-	}
-
-	// member = fetchMembers();
-	fetchMembers();
+	let member = {firstName: "Max", lastName: "Mustermann", location: "Berlin", alter: 30};
 </script>
 
 <style>
-#container{
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-}
+	#main {
+		display: flex;
+		flex-direction: row;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		outline: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	#main > div {
+		padding: 15px;
+	}
+
+	#classList {
+		width: 25%;
+		height: 100%;
+		background: #222;
+	}
+
+	#memberPage {
+		flex-grow: 1;
+	}
 </style>
 
-<div id="container">
-	<List members={members}/>
-	<h1>Hello {name}!</h1>
+<div id="main">
+	<div id="classList">
+		<List/>
+	</div>
+	<div id="memberPage">
+		<MemberPage member={member}/>
+	</div>
 </div>
-
-<!-- {#await member}
-	<p>Lädt...</p>
-{:then value}
-	<p>{value.firstName} {value.lastName}</p>
-{:catch}
-	<p>Promise konnte nicht gelöst werden.</p>
-{/await} -->
