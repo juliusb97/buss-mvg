@@ -69,7 +69,7 @@ function tableMaker(member: Member): any {
 		options: {x: 70, y: 100},
 		headers: [
 			// { label: "", width: 5, headerColor: conventToColor(member.convent)},
-			{ label: member.firstName + " " + member.lastName, width: 200, headerColor: conventToColor(member.convent)},
+			{ label: member.firstName + " " + member.lastName, width: 200, headerColor: conventToColor(member.convent)}, //TODO fix new Member structure
 			{ label: "geb.", width: 35, headerColor: conventToColor(member.convent)},
 			{ label: member.dob.toString(), width: 80, headerColor: conventToColor(member.convent)},
 			// { label: "", width: 5, headerColor: conventToColor(member.convent)},

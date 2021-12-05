@@ -15,10 +15,6 @@
     import Rotate20 from "carbon-icons-svelte/lib/Rotate20";
     export let member: Member;
 
-    let memberProperties = Object.getOwnPropertyNames(member);
-
-    let memberEntries = member;//Object.entries(member);
-    let toastDiv;
     let isToastShown = false;
 
     function triggerToast(){
@@ -74,6 +70,7 @@
     .rowInputWrapper {
         display: flex;
         align-items: center;
+        min-width: 30vw;
     }
 </style>
 
@@ -87,7 +84,7 @@
         </StructuredListRow>
     </StructuredListHead>
     <StructuredListBody>
-        {#each memberEntries.iterable() as entries}
+        {#each member.iterable() as entries}
         <StructuredListRow>
             <StructuredListCell><p class="property">{entries.displayName}</p></StructuredListCell>
             <StructuredListCell>
@@ -104,7 +101,7 @@
 </div>
 
 <div id="saveButton"><Button on:click={triggerToast}><Save20/><span id="saveText">Speichern</span></Button></div>
-<div id="saveToast" class="{isToastShown ? 'showToast' : ''}" bind:this={toastDiv}>
+<div id="saveToast" class="{isToastShown ? 'showToast' : ''}">
     <ToastNotification
     lowContrast
     hideCloseButton={true}

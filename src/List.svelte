@@ -1,14 +1,20 @@
 <script lang="ts">
     import { ClickableTile, Search } from "carbon-components-svelte";
     import Search20 from "carbon-icons-svelte/lib/Search20";
+    import type { Member } from "./back/member.entity";
 
-    let members = ["Max Mustermann", "Laura Schmidt", "Erika Mustermann", "Angela Merkel", "Elton John", "Scarlett Johansson", "Chris Pratt", "Marilyn Manson", "Sankt Martin", "Simon Kretschmer", "Johnny Depp", "Kate Upton"];
-    let filteredMembers = members;
+    export let members: Member[],
+        currentMember: Member;
+
+    let Members = ["Max Mustermann", "Laura Schmidt", "Erika Mustermann", "Angela Merkel", "Elton John", "Scarlett Johansson", "Chris Pratt", "Marilyn Manson", "Sankt Martin", "Simon Kretschmer", "Johnny Depp", "Kate Upton"];
+    let filteredMembers: Member[];
+
+    $: filteredMembers = members;
 
     let filter = "";
 
-    function filterMembers(filter: string): string[] {
-        return filteredMembers = members.filter((member) => member.toLocaleLowerCase().includes(filter.toLocaleLowerCase()));
+    function filterMembers(filter: string): Member[] {
+        return filteredMembers = members.filter((member) => (member.firstName.prop.toLocaleLowerCase()+ " " + member.lastName.prop.toLocaleLowerCase()).includes(filter.toLocaleLowerCase()));
     }
 
     $: filteredMembers = filterMembers(filter);
@@ -55,9 +61,9 @@
     <hr>
     <div id="list">
         {#each filteredMembers as member}
-            <div class="memberWrapper">
+            <div class="memberWrapper" on:click={() => {currentMember = member; console.log(member);}}>
                 <ClickableTile class="membersInList">
-                    {member}
+                    {member.firstName.prop + " " + member.lastName.prop}
                 </ClickableTile>
             </div>
         {/each}

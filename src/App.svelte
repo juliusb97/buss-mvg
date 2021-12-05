@@ -14,7 +14,7 @@
 		new Address("Berlin", "01219", "Schlossallee 10"),
 		Convent.N, "Diakon",
 		new date(11, 2, 1996),
-		new date(15, 7, 200),
+		new date(15, 7, 2000),
 		"verh. mit Mustermann, Erika geb. Schmidt",
 		new Mail("max.muster@t-online.de"),
 		new Mail("max.muster@musterfirma.de"),
@@ -27,6 +27,31 @@
 		"01234/567890",
 		"01234/567890"
 	);
+
+	let muster2 = new Member(
+		"Erika",
+		"Mustermann",
+		new date(1, 2, 1960),
+		new Address("Berlin", "01219", "Schlossallee 10"),
+		Convent.N, 
+		"Diakon",
+		new date(11, 2, 1996),
+		new date(15, 7, 2000),
+		"verh. mit Mustermann, Erika geb. Schmidt",
+		new Mail("max.muster@t-online.de"),
+		new Mail("max.muster@musterfirma.de"),
+		new date(21, 8, 1985),
+		new date(19, 2, 1997),
+		"Dipl. Sozialpädagoge",
+		Retirement.nicht,
+		"01234/567890",
+		"01234/567890",
+		"01234/567890",
+		"01234/567890"
+	);
+
+	let currentMember = muster;
+
 </script>
 
 <style>
@@ -61,9 +86,9 @@
 
 <div id="main">
 	<div id="classList">
-		<List/>
+		<List members={[muster, muster2]} bind:currentMember={currentMember}/>
 	</div>
 	<div id="memberPage">
-		<MemberPage member={muster}/>
+		<MemberPage bind:member={currentMember}/>
 	</div>
 </div>

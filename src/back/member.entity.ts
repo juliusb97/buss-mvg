@@ -11,50 +11,91 @@ export {
 
 class Member {
 	constructor(
-		public firstName: string, 
-		public lastName: string, 
-		public dob: date, 
-		public location: Address, 
-		public convent: Convent,
-		public title: string,
-		public joinDate: date,
-		public marriageDate: date,
-		public marriage: string,
-		public mailPrivat: Mail,
-		public mailWork: Mail,
-		public dobPartner: date,
-		public diakon: date,
-		public description: string,
-		public retired: Retirement,
-		public telWork: string,
-		public telPrivate: string,
-		public faxWork: string,
-		public faxPrivate: string
-		) {}
+		firstName: string, 
+		lastName: string, 
+		dob: date, 
+		location: Address, 
+		convent: Convent,
+		title: string,
+		joinDate: date,
+		marriageDate: date,
+		marriage: string,
+		mailPrivat: Mail,
+		mailWork: Mail,
+		dobPartner: date,
+		diakon: date,
+		description: string,
+		retired: Retirement,
+		telWork: string,
+		telPrivate: string,
+		faxWork: string,
+		faxPrivate: string
+		) {
+			this.firstName = new MemberChild<string>(firstName, "Vorname");
+			this.lastName = new MemberChild<string>(lastName, "Nachname");
+			this.dob = new MemberChild<date>(dob, "Geburtsdatum");
+			this.location = new MemberChild<Address>(location, "Adresse");
+			this.convent= new MemberChild<Convent>(convent, "Konvent");
+			this.title = new MemberChild<string>(title, "Titel")
+			this.joinDate = new MemberChild<date>(joinDate, "Beitrittsdatum")
+			this.marriageDate = new MemberChild<date>(marriageDate, "Hochzeitsdatum")
+			this.marriage = new MemberChild<string>(marriage, "Ehe")
+			this.mailPrivat = new MemberChild<Mail>(mailPrivat, "E-Mail privat")
+			this.mailWork = new MemberChild<Mail>(mailWork, "E-Mail dienstlich")
+			this.dobPartner = new MemberChild<date>(dobPartner, "Geburtsdatum Partner")
+			this.diakon = new MemberChild<date>(diakon, "Diakondatum")
+			this.description = new MemberChild<string>(description, "Beschreibung")
+			this.retired = new MemberChild<Retirement>(retired, "Ruhestand")
+			this.telWork = new MemberChild<string>(telWork, "Telefon dienstlich")
+			this.telPrivate = new MemberChild<string>(telPrivate, "Telefon privat")
+			this.faxWork = new MemberChild<string>(faxWork, "Fax dienstlich")
+			this.faxPrivate = new MemberChild<string>(faxPrivate, "Fax privat")
+
+		}
+
+		public firstName: MemberChild<string>;
+		public lastName: MemberChild<string>;
+		public dob: MemberChild<date>;
+		public location: MemberChild<Address>;
+		public convent: MemberChild<Convent>;
+		public title: MemberChild<string>;
+		public joinDate: MemberChild<date>;
+		public marriageDate: MemberChild<date>;
+		public marriage: MemberChild<string>;
+		public mailPrivat: MemberChild<Mail>;
+		public mailWork: MemberChild<Mail>;
+		public dobPartner: MemberChild<date>;
+		public diakon: MemberChild<date>;
+		public description: MemberChild<string>;
+		public retired: MemberChild<Retirement>;
+		public telWork: MemberChild<string>;
+		public telPrivate: MemberChild<string>;
+		public faxWork: MemberChild<string>;
+		public faxPrivate:  MemberChild<string>;
 
 	length = 19;
 
 	toObject(){
 		return {
-			firstName: this.firstName, 
-			lastName: this.lastName, 
-			dob: this.dob.serialize(), 
-			location: this.location.serialize(), 
-			convent: this.convent.toString(),
-			title: this.title,
-			joinDate: this.joinDate.serialize(),
-			marriageDate: this.marriageDate.serialize(),
-			marriage: this.marriage,
-			mailPrivat: this.mailPrivat.serialize(),
-			mailWork: this.mailWork.serialize(),
-			dobPartner: this.dobPartner.serialize(),
-			diakon: this.diakon.serialize(),
-			description: this.description,
-			retired: this.retired.toString(),
-			telWork: this.telWork,
-			telPrivate: this.telPrivate,
-			faxWork: this.faxWork,
-			faxPrivate: this.faxPrivate 
+			firstName: this.firstName.prop, 
+			lastName: this.lastName.prop, 
+			dob: this.dob.prop.serialize(), 
+			location: this.location.prop.serialize(), 
+			convent: this.convent.prop.toString(),
+			title: this.title.prop,
+			joinDate: this.joinDate.prop.serialize(),
+			marriageDate: this.marriageDate.prop.serialize(),
+			marriage: this.marriage.prop,
+			mailPrivat: this.mailPrivat.prop.serialize(),
+			mailWork: this.mailWork.prop.serialize(),
+			dobPartner: this.dobPartner.prop.serialize(),
+			diakon: this.diakon.prop.serialize(),
+			description: this.description.prop,
+			retired: this.retired.prop.toString(),
+			telWork: this.telWork.prop,
+			telPrivate: this.telPrivate.prop,
+			faxWork: this.faxWork.prop,
+			faxPrivate: this.faxPrivate.prop 
 		}
 	}
 
@@ -64,25 +105,25 @@ class Member {
 
 	iterable(): MemberChild<any>[] {
 		return [
-		new MemberChild<string>(this.firstName, "Vorname"),
-		new MemberChild<string>(this.lastName, "Nachname"),
-		new MemberChild<date>(this.dob, "Geburtsdatum"),
-		new MemberChild<Address>(this.location, "Adresse"),
-		new MemberChild<Convent>(this.convent, "Konvent"),
-		new MemberChild<string>(this.title, "Titel"),
-		new MemberChild<date>(this.joinDate, "Beitrittsdatum"),
-		new MemberChild<date>(this.marriageDate, "Hochzeitsdatum"),
-		new MemberChild<string>(this.marriage, "Ehe"),
-		new MemberChild<Mail>(this.mailPrivat, "E-Mail privat"),
-		new MemberChild<Mail>(this.mailWork, "E-Mail dienstlich"),
-		new MemberChild<date>(this.dobPartner, "Geburtsdatum Partner"),
-		new MemberChild<date>(this.diakon, "Diakondatum"),
-		new MemberChild<string>(this.description, "Beschreibung"),
-		new MemberChild<Retirement>(this.retired, "Ruhestand"),
-		new MemberChild<string>(this.telWork, "Telefon dienstlich"),
-		new MemberChild<string>(this.telPrivate, "Telefon privat"),
-		new MemberChild<string>(this.faxWork, "Fax dienstlich"),
-		new MemberChild<string>(this.faxPrivate, "Fax privat"),
+			this.firstName,
+			this.lastName,
+			this.dob,
+			this.location,
+			this.convent,
+			this.title,
+			this.joinDate,
+			this.marriageDate,
+			this.marriage,
+			this.mailPrivat,
+			this.mailWork,
+			this.dobPartner,
+			this.diakon,
+			this.description,
+			this.retired,
+			this.telWork,
+			this.telPrivate,
+			this.faxWork,
+			this.faxPrivate
 		];
 	}
 
@@ -127,7 +168,7 @@ class MemberChild<T> {
 			case "Beitrittsdatum":
 			case "Hochzeitsdatum":
 			case "Diakondatum":
-			case "Gebursdatum Partner":
+			case "Geburtsdatum Partner":
 			case "Geburtsdatum": this.type = "date"; break;
 			case "E-Mail privat":
 			case "E-Mail dienstlich": this.type = "Mail"; break;
@@ -255,6 +296,19 @@ class date{
 
 	year: number;
 
+	toDate(): Date {
+		let date = new Date();
+		date.setMonth(this.month - 1);
+		date.setDate(this.day);
+		date.setFullYear(this.year);
+
+		return date;
+	}
+
+	toDateString(): string {
+		return this.day.toString().padStart(2, "0") + "-" + this.month.toString().padStart(2, "0") + "-" + this.year;
+	}
+
 	toString(): string{
 		let str = this.day.toString().padStart(2, "0") + ".";
 		str += this.month.toString().padStart(2, "0") + ".";
@@ -271,7 +325,6 @@ class date{
 	}
 
 	static deserialize(dateInput: string){
-		console.log(dateInput);
 		let newDate = JSON.parse(dateInput);
 
 		return new date(newDate.day, newDate.month, newDate.year);
