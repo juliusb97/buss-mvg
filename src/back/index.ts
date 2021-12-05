@@ -1,7 +1,7 @@
 import express, { application } from "express";
 import * as pdf from "pdfkit";
 import * as fs from "fs";
-import { Member, conventToColor, date, Address, Convent, Retirement, Mail, someClass } from "./member.entity.js";
+import { Member, conventToColor, date, Address, Convent, Retirement, Mail } from "./member.entity.js";
 import path from "path";
 import PDFDocument from "pdfkit-table";
 import cors from "cors";

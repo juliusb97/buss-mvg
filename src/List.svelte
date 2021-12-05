@@ -1,10 +1,17 @@
-<script>
+<script lang="ts">
     import { ClickableTile, Search } from "carbon-components-svelte";
     import Search20 from "carbon-icons-svelte/lib/Search20";
 
     let members = ["Max Mustermann", "Laura Schmidt", "Erika Mustermann", "Angela Merkel", "Elton John", "Scarlett Johansson", "Chris Pratt", "Marilyn Manson", "Sankt Martin", "Simon Kretschmer", "Johnny Depp", "Kate Upton"];
+    let filteredMembers = members;
 
     let filter = "";
+
+    function filterMembers(filter: string): string[] {
+        return filteredMembers = members.filter((member) => member.toLocaleLowerCase().includes(filter.toLocaleLowerCase()));
+    }
+
+    $: filteredMembers = filterMembers(filter);
 </script>
 
 <style>
@@ -47,7 +54,7 @@
     </div>
     <hr>
     <div id="list">
-        {#each members as member}
+        {#each filteredMembers as member}
             <div class="memberWrapper">
                 <ClickableTile class="membersInList">
                     {member}

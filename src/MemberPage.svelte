@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
     import { 
-        Button, 
+        Button,
+        Form,
         ToastNotification,
         StructuredList,
         StructuredListHead,
@@ -8,11 +9,15 @@
         StructuredListCell,
         StructuredListBody,
     } from "carbon-components-svelte";
+    import type { Member } from "..\\src\\back\\member.entity";
+    import MemberInput from "./MemberInput.svelte";
     import Save20 from "carbon-icons-svelte/lib/Save20";
     import Rotate20 from "carbon-icons-svelte/lib/Rotate20";
-    export let member;
+    export let member: Member;
 
-    let memberEntries = Object.entries(member);
+    let memberProperties = Object.getOwnPropertyNames(member);
+
+    let memberEntries = member;//Object.entries(member);
     let toastDiv;
     let isToastShown = false;
 
@@ -36,7 +41,8 @@
 
     #saveToast {
         position: fixed;
-        right: -350px;
+        right: -500px;
+        bottom: 9vh;
     }
 
     .showToast {
@@ -65,12 +71,6 @@
         margin-right: 15vw;
     }
 
-    .propertyInput {
-        width: 20vw;
-        margin: 0;
-        margin-right: 15px;
-    }
-
     .rowInputWrapper {
         display: flex;
         align-items: center;
@@ -78,6 +78,7 @@
 </style>
 
 <div>
+<Form>
 <StructuredList style="width: 80%;">
     <StructuredListHead>
         <StructuredListRow head>
@@ -86,12 +87,12 @@
         </StructuredListRow>
     </StructuredListHead>
     <StructuredListBody>
-        {#each memberEntries as entries}
+        {#each memberEntries.iterable() as entries}
         <StructuredListRow>
-            <StructuredListCell><p class="property">{entries[0]}</p></StructuredListCell>
+            <StructuredListCell><p class="property">{entries.displayName}</p></StructuredListCell>
             <StructuredListCell>
                 <div class="rowInputWrapper">
-                    <input  class="propertyInput" bind:value={entries[1]}>
+                    <MemberInput memberChild={entries} />
                     <Button style="display: none" iconDescription="Zurücksetzen" size="small" kind="tertiary" icon={Rotate20}></Button>
                 </div>
             </StructuredListCell>
@@ -99,13 +100,14 @@
         {/each}
     </StructuredListBody>
 </StructuredList>
+</Form>
 </div>
 
 <div id="saveButton"><Button on:click={triggerToast}><Save20/><span id="saveText">Speichern</span></Button></div>
 <div id="saveToast" class="{isToastShown ? 'showToast' : ''}" bind:this={toastDiv}>
     <ToastNotification
     lowContrast
-    hideCloseButton="true"
+    hideCloseButton={true}
     kind="success"
     title="Gespeichert"
     subtitle="Ihre Änderungen wurden gespeichert."

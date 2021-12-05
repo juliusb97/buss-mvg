@@ -5,8 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import css from 'rollup-plugin-css-only';
-import multiinput from "rollup-plugin-multi-input";
-// import typescript from '@rollup/plugin-typescript';
+// import multiinput from "rollup-plugin-multi-input";
+import typescript from '@rollup/plugin-typescript';
 
 //TODO: try using tsc in rollup (comment down below) instead of manually
 
@@ -42,6 +42,7 @@ export default {
 	output: {
 		sourcemap: true,
 		format: 'iife',
+		inlineDynamicImports: true,
 		name: 'app',
 		file: 'public/build/bundle.js'
 	},
@@ -68,10 +69,10 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		// typescript({
-		// 	sourceMap: !production,
-		// 	inlineSources: !production
-		// }),
+		typescript({
+			sourceMap: !production,
+			inlineSources: !production
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

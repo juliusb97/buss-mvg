@@ -5,16 +5,9 @@ export {
 	Convent,
 	Retirement,
 	Member,
-	someClass,
+	MemberChild,
 	conventToColor
 };
-
-class someClass{
-	public firstName: string;
-	public lastName: string;
-
-	constructor(){}
-}
 
 class Member {
 	constructor(
@@ -39,7 +32,8 @@ class Member {
 		public faxPrivate: string
 		) {}
 
-	
+	length = 19;
+
 	toObject(){
 		return {
 			firstName: this.firstName, 
@@ -68,15 +62,41 @@ class Member {
 		return JSON.stringify(this.toObject());
 	}
 
+	iterable(): MemberChild<any>[] {
+		return [
+		new MemberChild<string>(this.firstName, "Vorname"),
+		new MemberChild<string>(this.lastName, "Nachname"),
+		new MemberChild<date>(this.dob, "Geburtsdatum"),
+		new MemberChild<Address>(this.location, "Adresse"),
+		new MemberChild<Convent>(this.convent, "Konvent"),
+		new MemberChild<string>(this.title, "Titel"),
+		new MemberChild<date>(this.joinDate, "Beitrittsdatum"),
+		new MemberChild<date>(this.marriageDate, "Hochzeitsdatum"),
+		new MemberChild<string>(this.marriage, "Ehe"),
+		new MemberChild<Mail>(this.mailPrivat, "E-Mail privat"),
+		new MemberChild<Mail>(this.mailWork, "E-Mail dienstlich"),
+		new MemberChild<date>(this.dobPartner, "Geburtsdatum Partner"),
+		new MemberChild<date>(this.diakon, "Diakondatum"),
+		new MemberChild<string>(this.description, "Beschreibung"),
+		new MemberChild<Retirement>(this.retired, "Ruhestand"),
+		new MemberChild<string>(this.telWork, "Telefon dienstlich"),
+		new MemberChild<string>(this.telPrivate, "Telefon privat"),
+		new MemberChild<string>(this.faxWork, "Fax dienstlich"),
+		new MemberChild<string>(this.faxPrivate, "Fax privat"),
+		];
+	}
+
 	static deserialize(member: string): Member {
 		let mo = JSON.parse(member);
+		let convent: Convent = mo.convent;
+		let retirement: Retirement = mo.retired;
 
 		return new Member(
 			mo.firstName,
 			mo.lastName,
 			new date(mo.dob.day, mo.dob.month, mo.dob.year),
 			new Address(mo.location.town, mo.location.postal, mo.location.address),
-			Convent[mo.convent],
+			convent,
 			mo.title,
 			new date(mo.joinDate.day, mo.joinDate.month, mo.joinDate.year),
 			new date(mo.marriageDate.day, mo.marriageDate.month, mo.marriageDate.year),
@@ -86,13 +106,70 @@ class Member {
 			new date(mo.dobPartner.day, mo.dobPartner.month, mo.dobPartner.year),
 			new date(mo.diakon.day, mo.diakon.month, mo.diakon.year),
 			mo.description,
-			Retirement[mo.retired],
+			retirement,
 			mo.telWork,
 			mo.telPrivate,
 			mo.faxWork,
 			mo.faxPrivate,
 		);
 	}
+}
+
+class MemberChild<T> {
+
+	constructor(
+		prop: T, displayName: string
+	) {
+		this.prop = prop;
+		this.displayName = displayName;
+
+		switch(displayName) {
+			case "Beitrittsdatum":
+			case "Hochzeitsdatum":
+			case "Diakondatum":
+			case "Gebursdatum Partner":
+			case "Geburtsdatum": this.type = "date"; break;
+			case "E-Mail privat":
+			case "E-Mail dienstlich": this.type = "Mail"; break;
+			case "Adresse": this.type = "Address"; break;
+			case "Konvent": this.type = "Convent"; break;
+			case "Ruhestand": this.type = "Retirement"; break;
+			default: this.type = "string";
+		}
+	}
+
+	public type: string;
+	public prop: T;
+	public displayName: string;
+
+	mapPropertyToName(prop: string): string {
+		let map: Record<string, string>;
+		
+		map = {
+			firstName: "Vorname", 
+			lastName: "Nachname", 
+			dob: "Geburtsdatum", 
+			location: "Addresse", 
+			convent: "Konvent",
+			title: "Titel",
+			joinDate: "BuSs Beitrittsdatum",
+			marriageDate: "Hochzeitsdatum",
+			marriage: "Hochzeitsbeschreibung",
+			mailPrivat: "Mail privat",
+			mailWork: "Mail dienstlich",
+			dobPartner: "Geburtsdatum Partner",
+			diakon: "Diakon seit",
+			description: "Allgemeine Beschreibung",
+			retired: "Ruhestand",
+			telWork: "Telefon dienstlich",
+			telPrivate: "Telefon privat",
+			faxWork: "Fax dienstlich",
+			faxPrivate: "Fax Privat"
+		};
+	
+		return map[prop];
+	}
+
 }
 
 class Address {
